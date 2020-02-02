@@ -5,11 +5,19 @@ import string
 #import pyperclip
 ## 1) Salvar as senhas em um arquivo
 
-def salvarSenha (senha):
+def salvarSenha (apelido, senha):
   file = open ("senhas.txt", "a+")
+  file.write (apelido)
+  file.write ("\n")
   file.write (senha)
   file.write ("\n")
   file.close()
+
+def contarSenhas ():
+  file = open ("senha.txt", "r")
+  for line in file:
+    count =+ 1
+  return count/2
 
 #TESTE: 
 #senha1 = "mari"
@@ -45,7 +53,7 @@ OptionList = [
 "Selecione um opcao",
 "Salvar senha nova",
 "Gerar Senha Aleatoria",
-"Copiar senha para clipboard"
+"Copiar senha salva para clipboard"
 ] 
 
 app = gerenciador.Tk()
@@ -63,7 +71,39 @@ labelTest = gerenciador.Label(text="", font=('Helvetica', 12), fg='red')
 labelTest.pack(side="top")
 
 def callback(*args):
-    labelTest.configure(text="The selected item is {}".format(variable.get()))
+#    labelTest.configure(text="The selected item is {}".format(variable.get()))
+    
+    if (variable.get() == "Gerar Senha Aleatoria"):
+      senhaNova = gerarSenhaAleatoria ()
+      labelTest.configure(text=senhaNova)
+      app.clipboard_clear()
+      # text to clipboard
+      app.clipboard_append(senhaNova)
+      # text from clipboard
+      clip_text = app.clipboard_get()
+
+    elif (variable.get() == "Salvar Senha Nova"):
+      gerenciador.Label(app, 
+         text="Apelido").grid(row=0)
+      gerenciador.Label(app, 
+         text="Senha").grid(row=1)
+
+      entry1 = gerenciador.Entry (app)     
+      entry2 = gerenciador.Entry (app)
+      tk.Button(master, text='Enviar', command=show_entry_fields).grid(
+        row=3, column=0, sticky=tk.W, pady=4)
+
+    elif (variable.get() == "Copiar senha salva para clipboard"):
+      start (4)
+
+
+def start(number):
+  buttons = []
+  win = gerenciador.Tk()
+  for i in range(number):
+    b = gerenciador.Button(win, height=1, width=10, command=lambda i=i: onClick(i))
+    b.pack()
+    buttons.append(b)   
 
 variable.trace("w", callback)
 
