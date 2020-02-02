@@ -1,7 +1,8 @@
 import sys
+import tkinter as gerenciador
 import random
 import string
-import pyperclip
+#import pyperclip
 ## 1) Salvar as senhas em um arquivo
 
 def salvarSenha (senha):
@@ -40,33 +41,33 @@ def copiarClipboard (senha):
 
 ## 4) Menu para selecionar opcoes
 
-def menu ():
-  print ("Selecione uma opcao:")
-  print ()
-  
-  escolha = input (""" 
-                      a) arquivar senha;
-                      b) gerar senha aleatoria
-                      c) copiar senha para o clipboard
-                      d) sair do programa
-                    """)
-  if (escolha == "a" or escolha == "A"):
-    menuSalvarSenha ()
+OptionList = [
+"Selecione um opcao",
+"Salvar senha nova",
+"Gerar Senha Aleatoria",
+"Copiar senha para clipboard"
+] 
 
-  elif (escolha == "b" or escolha == "B"):
-    menuGerarSenhaAleatoria ()
+app = gerenciador.Tk()
 
-  elif (escolha == "c" or escolha == "C"):
-    menuCopiarSenhaClipboard()
+app.geometry('300x200')
 
-  elif (escolha == "d" or escolha == "D"):
-    sys.exit
+variable = gerenciador.StringVar(app)
+variable.set(OptionList[0])
 
-  else:
-    print ("Selecione a, b, c ou d")
-    print ("Por favor, tente novamente")
-    menu ()
+opt = gerenciador.OptionMenu(app, variable, *OptionList)
+opt.config(width=90, font=('Helvetica', 12))
+opt.pack(side="top")
 
+labelTest = gerenciador.Label(text="", font=('Helvetica', 12), fg='red')
+labelTest.pack(side="top")
+
+def callback(*args):
+    labelTest.configure(text="The selected item is {}".format(variable.get()))
+
+variable.trace("w", callback)
+
+app.mainloop()
 
 
 
